@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Felipe Rodríguez — Desarrollador Fullstack .NET + React</title>
+    <style>
+      /*
+        CV pensado para imprimirse a PDF desde el navegador (Ctrl+P → Guardar como PDF).
+        Sin foto y con texto seleccionable: los filtros automáticos de hojas de vida
+        (ATS) no leen imágenes.
+      */
+      @page {
+        size: letter;
+        margin: 14mm 15mm;
+      }
+
+      :root {
+        --tinta: #111418;
+        --tenue: #4a5462;
+        --acento: #0b5fff;
+        --linea: #d8dee6;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+        font-size: 10.2pt;
+        line-height: 1.42;
+        color: var(--tinta);
+        background: #fff;
+        max-width: 200mm;
+        margin-inline: auto;
+        padding: 10mm;
+      }
+
+      h1 { font-size: 20pt; margin: 0 0 2pt; letter-spacing: -0.5pt; }
+      h2 {
+        font-size: 10pt;
+        text-transform: uppercase;
+        letter-spacing: 1pt;
+        color: var(--acento);
+        margin: 14pt 0 6pt;
+        padding-bottom: 3pt;
+        border-bottom: 1px solid var(--linea);
+      }
+      h3 { font-size: 10.8pt; margin: 9pt 0 1pt; }
+
+      .titular { font-size: 11.5pt; color: var(--tenue); margin: 0 0 6pt; }
+
+      .contacto {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4pt 14pt;
+        font-size: 9.4pt;
+        color: var(--tenue);
+        margin-bottom: 4pt;
+      }
+      .contacto a { color: var(--tenue); text-decoration: none; }
+
+      .perfil { margin: 0; }
+
+      .meta { font-size: 9pt; color: var(--tenue); margin: 0 0 3pt; }
+
+      ul { margin: 3pt 0 0; padding-left: 14pt; }
+      li { margin-bottom: 2.5pt; }
+      li::marker { color: var(--acento); }
+
+      .stack-grid {
+        display: grid;
+        grid-template-columns: 26mm 1fr;
+        gap: 3pt 8pt;
+        font-size: 9.6pt;
+      }
+      .stack-grid dt { font-weight: 600; }
+      .stack-grid dd { margin: 0; color: var(--tenue); }
+
+      /* Ninguna entrada debe partirse entre dos páginas. */
+      section, .entrada { break-inside: avoid; }
+
+      .pendiente {
+        background: #fff3cd;
+        padding: 0 2pt;
+        border-radius: 2pt;
+      }
+
+      @media print {
+        body { padding: 0; max-width: none; }
+        .pendiente { background: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Felipe Rodríguez</h1>
+      <p class="titular">Desarrollador Fullstack · .NET + React</p>
+      <div class="contacto">
+        <a href="mailto:feliper421@gmail.com">feliper421@gmail.com</a>
+        <span class="pendiente">[PENDIENTE: LinkedIn]</span>
+        <span class="pendiente">[PENDIENTE: GitHub]</span>
+        <span class="pendiente">[PENDIENTE: ciudad]</span>
+        <span>Disponible para proyectos freelance · Remoto</span>
+      </div>
+    </header>
+
+    <section>
+      <h2>Perfil</h2>
+      <p class="perfil">
+        Desarrollador fullstack con más de 5 años construyendo sistemas que llegan a producción y se
+        mantienen ahí. Backend en C# y .NET con Clean Architecture, CQRS y TDD; frontend en React 19
+        con TypeScript. Experiencia en arquitecturas serverless sobre Azure, bases de datos
+        relacionales y NoSQL, sistemas multiempresa e integraciones con pasarelas de pago, WhatsApp,
+        telefonía, calendarios y agentes de IA.
+      </p>
+    </section>
+
+    <section>
+      <h2>Stack técnico</h2>
+      <dl class="stack-grid">
+        <dt>Backend</dt>
+        <dd>C# / .NET 8–10, Minimal API, Azure Functions, Entity Framework Core, MediatR, FluentValidation, Python</dd>
+
+        <dt>Frontend</dt>
+        <dd>React 19, TypeScript, Vite, MUI, Tailwind CSS, Redux Toolkit, React Router, PWA</dd>
+
+        <dt>Datos</dt>
+        <dd>PostgreSQL, Cosmos DB, SQL Server, Firebase, Microsoft Access / DAO</dd>
+
+        <dt>Cloud / DevOps</dt>
+        <dd>Azure Container Apps, Azure Static Web Apps, Docker, GitHub Actions, nginx, Application Insights</dd>
+
+        <dt>Prácticas</dt>
+        <dd>Clean Architecture, Vertical Slice, CQRS, TDD, Testcontainers, multitenant, JWT / AES-256 / BCrypt, RAG</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>Proyectos destacados</h2>
+
+      <div class="entrada">
+        <h3>WorldCup 2026 — Plataforma de predicciones deportivas</h3>
+        <p class="meta">Proyecto propio · .NET 8, Azure Functions, Cosmos DB, React 19, MUI, PWA · 2026</p>
+        <ul>
+          <li>Diseñé y construí el sistema completo: 27 Azure Functions sobre Cosmos DB y una aplicación React instalable como PWA.</li>
+          <li>Implementé sincronización automática de resultados mediante funciones por temporizador que recalculan la puntuación de todas las predicciones sin intervención humana.</li>
+          <li>Aseguré el acceso con invitaciones cifradas en AES-256, autenticación JWT y contraseñas con BCrypt; la clave de cifrado se inyecta por entorno y el servicio no arranca sin ella.</li>
+          <li>Automaticé el despliegue con GitHub Actions hacia Azure Static Web Apps: cada push a main publica sin pasos manuales.</li>
+        </ul>
+      </div>
+
+      <div class="entrada">
+        <h3>Plataforma omnicanal de servicio al cliente</h3>
+        <p class="meta">Cliente (ERP) · .NET 10, PostgreSQL, Clean Architecture + Vertical Slice, TDD, Azure · 2026</p>
+        <ul>
+          <li>Desarrollé con TDD el backend que unifica WhatsApp, correo y llamadas en una sola bandeja por cliente.</li>
+          <li>Implementé el aislamiento multiempresa mediante filtros globales de consulta, verificado con pruebas de integración contra PostgreSQL real levantado en contenedores.</li>
+          <li>Integré un agente de IA con recuperación sobre base de conocimiento (RAG) y un modo de contingencia que escala a un asesor humano cuando el proveedor no está disponible.</li>
+          <li>Hice idempotentes los webhooks de los canales, eliminando mensajes duplicados por reintentos del proveedor.</li>
+        </ul>
+      </div>
+
+      <div class="entrada">
+        <h3>Plataforma de reserva y pago de citas</h3>
+        <p class="meta">Cliente · .NET 10 Minimal API, React 19, PostgreSQL, Docker · 2026</p>
+        <ul>
+          <li>Construí backend y frontend de una agenda con cobro anticipado, tres modalidades de atención y recargo por zona.</li>
+          <li>Eliminé la posibilidad de dobles reservas trasladando la garantía a una restricción de exclusión en PostgreSQL, validada con una prueba de ocho reservas simultáneas sobre la misma franja.</li>
+          <li>Implementé la confirmación de pago con webhook firmado e idempotente, con reverificación contra la pasarela antes de confirmar la cita.</li>
+          <li>Modelé las políticas de reserva como estrategias independientes, de modo que añadir una regla no obliga a modificar código existente.</li>
+        </ul>
+      </div>
+
+      <div class="entrada">
+        <h3>FootballEdge — Motor de predicción deportiva</h3>
+        <p class="meta">Proyecto propio · Python, modelo de Poisson, backtesting, Playwright · 2026</p>
+        <ul>
+          <li>Desarrollé un modelo de Poisson calibrado por fuerza ofensiva y defensiva que produce la probabilidad de cada marcador y, a partir de ahí, todos los mercados.</li>
+          <li>Construí un módulo de backtesting sobre temporadas históricas que descartó la mayoría de las estrategias y dejó solo las que resisten validación fuera de muestra.</li>
+        </ul>
+      </div>
+
+      <div class="entrada">
+        <h3>Mantenimiento y modernización de ERP contable</h3>
+        <p class="meta">Cliente · C#, .NET, Windows Services, Microsoft Access / DAO · 2024 – 2026</p>
+        <ul>
+          <li>Migré a 64 bits módulos en producción de un ERP contable usado por cientos de empresas, sin pérdida de datos ni interrupción de la operación.</li>
+          <li>Desarrollé actualizadores automáticos que llevan cada instalación a la versión correcta sin visita técnica, y un servicio de Windows para monitoreo de disponibilidad.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Experiencia profesional</h2>
+      <div class="entrada">
+        <h3 class="pendiente">[PENDIENTE: cargo] — [PENDIENTE: empresa]</h3>
+        <p class="meta pendiente">[PENDIENTE: periodo]</p>
+        <ul>
+          <li class="pendiente">[PENDIENTE: responsabilidades y logros]</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Formación</h2>
+      <p class="pendiente">[PENDIENTE: título, institución y año]</p>
+    </section>
+  </body>
+</html>

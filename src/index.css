@@ -1,0 +1,19 @@
+/*
+  El resto de estilos los aporta el tema de MUI (src/theme/theme.ts) a través de
+  CssBaseline. Aquí solo queda lo que un componente no puede resolver por sí solo.
+*/
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* El navegador ajusta sus propios controles (scrollbar, formularios) al tema activo. */
+:root {
+  color-scheme: light dark;
+}
