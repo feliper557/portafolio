@@ -13,6 +13,7 @@ const Inicio = lazy(() => import('./pages/Inicio'));
 const Proyectos = lazy(() => import('./pages/Proyectos'));
 const ProyectoDetalle = lazy(() => import('./pages/ProyectoDetalle'));
 const Stack = lazy(() => import('./pages/Stack'));
+const Trayectoria = lazy(() => import('./pages/Trayectoria'));
 const Servicios = lazy(() => import('./pages/Servicios'));
 const Contacto = lazy(() => import('./pages/Contacto'));
 const NoEncontrada = lazy(() => import('./pages/NoEncontrada'));
@@ -42,6 +43,7 @@ export default function App() {
               <Route path="proyectos" element={<Proyectos />} />
               <Route path="proyectos/:slug" element={<ProyectoDetalle />} />
               <Route path="stack" element={<Stack />} />
+              <Route path="trayectoria" element={<Trayectoria />} />
               <Route path="servicios" element={<Servicios />} />
               <Route path="contacto" element={<Contacto />} />
               <Route path="*" element={<NoEncontrada />} />

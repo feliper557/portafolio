@@ -5,16 +5,18 @@
 
 export const PERFIL = {
   nombre: 'Felipe Rodríguez',
-  titular: 'Desarrollador Fullstack .NET + React',
+  titular: 'Desarrollador Full Stack .NET + React',
   /** Una línea. Lo primero que lee un cliente. */
   propuesta:
-    'Construyo sistemas que aguantan producción: APIs, aplicaciones web e integraciones que resuelven un problema de negocio concreto y siguen siendo baratas de mantener un año después.',
+    'Cinco años sosteniendo y modernizando el ecosistema completo de un ERP contable en producción: desde servicios heredados hasta APIs en .NET 10 con Clean Architecture, incluidas integraciones fiscales donde un error de esquema deja a miles de empresas sin poder facturar.',
   aniosExperiencia: '5+',
+  /** Credencial profesional. Se muestra junto a la disponibilidad en la portada. */
+  credencial: 'Ingeniero de Sistemas · Tarjeta profesional vigente',
   ubicacion: '[PENDIENTE: ciudad]',
   disponibilidad: 'Disponible para proyectos freelance · Remoto',
   email: 'feliper421@gmail.com',
   linkedin: '[PENDIENTE: URL de LinkedIn]',
-  github: '[PENDIENTE: usuario de GitHub]',
+  github: 'feliper557',
   cv: '/cv-felipe-rodriguez.pdf',
 } as const;
 

@@ -29,6 +29,7 @@ const NAVEGACION = [
   { texto: 'Inicio', a: '/' },
   { texto: 'Proyectos', a: '/proyectos' },
   { texto: 'Stack', a: '/stack' },
+  { texto: 'Trayectoria', a: '/trayectoria' },
   { texto: 'Servicios', a: '/servicios' },
   { texto: 'Contacto', a: '/contacto' },
 ] as const;

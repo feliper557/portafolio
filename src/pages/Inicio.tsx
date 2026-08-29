@@ -28,7 +28,10 @@ export default function Inicio() {
         }}
       >
         <Container maxWidth="lg" sx={{ py: { xs: 7, md: 12 } }}>
-          <Chip label={PERFIL.disponibilidad} color="primary" variant="outlined" size="small" sx={{ mb: 3 }} />
+          <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1, mb: 3 }}>
+            <Chip label={PERFIL.disponibilidad} color="primary" variant="outlined" size="small" />
+            <Chip label={PERFIL.credencial} variant="outlined" size="small" />
+          </Stack>
 
           <Typography variant="h1" sx={{ maxWidth: 900, mb: 2 }}>
             {PERFIL.titular}
