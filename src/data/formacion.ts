@@ -23,6 +23,155 @@ export const FORMACION_ACADEMICA: readonly TituloAcademico[] = [
   },
 ];
 
+export interface Experiencia {
+  readonly rol: string;
+  readonly contexto: string;
+  readonly periodo: string;
+  readonly descripcion: string;
+  /** Lo que se hizo, en logros verificables. */
+  readonly logros: readonly string[];
+}
+
+/**
+ * Experiencia profesional. El empleador va sin nombrar, igual que en los proyectos:
+ * lo que demuestra el trabajo es el alcance, no el logotipo.
+ */
+export const EXPERIENCIA: readonly Experiencia[] = [
+  {
+    rol: 'Desarrollador Full Stack .NET',
+    contexto: 'Casa de software de un ERP contable colombiano y su plataforma SaaS',
+    periodo: 'Marzo 2021 – actualidad',
+    descripcion:
+      'Construyo y sostengo el ecosistema completo del producto: desde las aplicaciones de escritorio y los servicios heredados que siguen facturando todos los días, hasta las APIs nuevas con arquitectura limpia y la interfaz web moderna que las consume. Un perfil híbrido, porque el sistema real es híbrido.',
+    logros: [
+      'Ecosistema cubierto de punta a punta: escritorio, servicios, APIs, portal web y aplicaciones móviles instalables',
+      'Rango tecnológico de más de quince años de plataforma, del framework heredado a la versión más reciente',
+      'Integraciones fiscales y regulatorias donde un error de esquema o de firma bloquea la operación de miles de empresas',
+      'Integración del trabajo de un equipo de más de ocho desarrolladores hacia la rama principal, de forma sostenida durante años',
+      'Modernización continua de código heredado sin romper a un solo cliente en producción',
+      'Diagnóstico de incidencias reales: concurrencia, consultas lentas, límites de carga y fugas de recursos',
+    ],
+  },
+];
+
+export interface DominioNegocio {
+  readonly titulo: string;
+  readonly descripcion: string;
+  /** Por qué es difícil. Es lo que separa este conocimiento del de un framework. */
+  readonly alcance: readonly string[];
+}
+
+/**
+ * Dominios regulatorios. Es la parte menos común del perfil: el conocimiento
+ * normativo no se aprende leyendo la documentación de un framework.
+ */
+export const DOMINIOS: readonly DominioNegocio[] = [
+  {
+    titulo: 'Facturación electrónica — Colombia',
+    descripcion:
+      'El ciclo completo ante la autoridad tributaria colombiana, desde el armado del documento hasta el acuse y el reproceso de lo que quedó a medias.',
+    alcance: [
+      'Estándar XML, identificadores únicos del documento y firma digital con certificado',
+      'Documento soporte, documentos equivalentes, notas crédito y débito, exportación y otra moneda',
+      'Retenciones, tributos especiales, sector transporte, sector salud y contratos por administración',
+    ],
+  },
+  {
+    titulo: 'Factura como título valor',
+    descripcion:
+      'El registro que convierte una factura electrónica en un título negociable, con todos sus eventos de circulación.',
+    alcance: [
+      'Los quince tipos de evento: acuse, aceptación expresa y tácita, reclamo y protesto',
+      'Aval, mandato y endoso en propiedad, en garantía o en procuración, con su cancelación',
+      'Inscripción del documento, informe de pago y pagos parciales',
+    ],
+  },
+  {
+    titulo: 'Nómina electrónica',
+    descripcion:
+      'Reporte del pago de nómina ante la autoridad tributaria, con su propio esquema y su propio ciclo de corrección.',
+    alcance: [
+      'Documento de nómina individual y su identificador único',
+      'Notas de ajuste y de reemplazo cuando el reporte ya enviado cambia',
+      'Habilitación de empresas, validación, envío y reproceso',
+    ],
+  },
+  {
+    titulo: 'Facturación electrónica — Perú',
+    descripcion:
+      'La misma necesidad en otro país, con otro esquema, otro protocolo de seguridad y otras reglas.',
+    alcance: [
+      'Comprobantes, guía de remisión y resumen diario',
+      'Consulta del estado del comprobante ante la autoridad',
+      'Seguridad de mensajes con credencial resumida, implementada a mano',
+    ],
+  },
+  {
+    titulo: 'Sector salud — facturación con soporte clínico',
+    descripcion:
+      'Radicación de facturas acompañadas del detalle de cada servicio prestado ante la plataforma del Ministerio de Salud.',
+    alcance: [
+      'Carga de facturas, notas de ajuste, capitación y acuerdos de voluntades',
+      'Recuperación del código único que acredita la validación',
+      'Gestión de observaciones y rechazos, con paquetes comprimidos de gran tamaño',
+    ],
+  },
+  {
+    titulo: 'Debida diligencia y prevención de lavado',
+    descripcion:
+      'Verificación automatizada de personas y empresas contra listas restrictivas nacionales e internacionales, con evidencia archivada.',
+    alcance: [
+      'Diez fuentes distintas consultadas de forma programada y desatendida',
+      'Generación del soporte documental de cada consulta y su archivo',
+      'Reintentos escalonados frente a fuentes que fallan o cambian sin aviso',
+    ],
+  },
+];
+
+export interface Modernizacion {
+  readonly origen: string;
+  readonly destino: string;
+  readonly cambio: string;
+}
+
+/** Modernización de sistemas heredados: origen, destino y qué cambió realmente. */
+export const MODERNIZACIONES: readonly Modernizacion[] = [
+  {
+    origen: 'Servicios de facturación electrónica sobre el framework heredado',
+    destino: 'API sobre .NET moderno conservando el diálogo SOAP',
+    cambio:
+      'La autoridad tributaria siguió viendo exactamente el mismo contrato; por dentro llegaron inyección de dependencias, acceso a datos moderno y pruebas.',
+  },
+  {
+    origen: 'Debida diligencia acoplada a la aplicación web, con automatización frágil',
+    destino: 'Servicio independiente con un proceso en segundo plano',
+    cambio:
+      'De una automatización que se rompía cada vez que una fuente cambiaba, a interfaces por fuente con reintentos escalonados y evidencia archivada.',
+  },
+  {
+    origen: 'Intranet sobre framework y modelo de datos de generación anterior',
+    destino: 'Aplicación sobre .NET moderno con acceso a datos actual',
+    cambio:
+      'Modelo generado desde la base existente, un módulo piloto migrado y una tabla de equivalencias documentada para que el resto siguiera detrás.',
+  },
+  {
+    origen: 'Lógica de seguimiento de uso dentro del monolito',
+    destino: 'API propia con arquitectura limpia',
+    cambio:
+      'Reescritura con capas separadas, errores devueltos como valor y cobertura de pruebas real, incluidas las de integración.',
+  },
+  {
+    origen: 'Instalador generado por una herramienta descontinuada',
+    destino: 'Asistente de instalación propio con pasos desacoplados',
+    cambio:
+      'Cada paso de instalación pasó a ser una estrategia independiente, con verificación de prerrequisitos y pruebas unitarias.',
+  },
+];
+
+/** El criterio que gobierna toda modernización de las anteriores. */
+export const CRITERIO_MODERNIZACION =
+  'No se rompen los contratos existentes. Se crea el endpoint nuevo, se documenta en qué se comporta distinto, y cada consumidor migra cuando puede. Una migración que obliga a todos a moverse el mismo día no es una migración: es una caída programada.';
+
 export interface Metodologia {
   readonly titulo: string;
   readonly descripcion: string;

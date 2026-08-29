@@ -12,6 +12,7 @@ interface Props {
 const COLOR_TIPO = {
   Propio: 'primary',
   Cliente: 'secondary',
+  Profesional: 'success',
   'Prueba técnica': 'default',
 } as const;
 

@@ -162,13 +162,88 @@ public async Task Una_empresa_no_puede_leer_conversaciones_de_otra()
   },
 
   {
+    slug: 'facturacion-electronica-dian',
+    nombre: 'Núcleo de facturación electrónica DIAN y SUNAT',
+    resumen:
+      'El motor fiscal de un ERP contable: construye, firma y envía los documentos electrónicos de miles de empresas ante las autoridades tributarias de Colombia y Perú.',
+    tipo: 'Profesional',
+    anio: '2021 – 2026',
+    destacado: true,
+    problema:
+      'La facturación electrónica no admite “casi bien”. Un atributo fuera de lugar en el XML, una firma mal construida o un identificador mal calculado y la autoridad tributaria rechaza el documento: la empresa no puede facturar, y no facturar es no vender. A eso se suma que el catálogo no para de crecer —documento soporte, documentos equivalentes POS, notas crédito y débito, exportación, sector transporte, sector salud, AIU, retenciones— y que cada país tiene su propio esquema y su propia forma de firmar.',
+    solucion:
+      'Construí y mantengo el núcleo que resuelve el ciclo completo: armado del XML bajo el estándar UBL 2.1, cálculo de los identificadores únicos de cada documento, firma digital XAdES con certificado, envío a la autoridad, comparación de la respuesta contra lo enviado, generación del PDF con su código QR, envío del correo con los adjuntos y reproceso automático de lo que quedó a medias. Cubre facturación electrónica, nómina electrónica y los eventos de factura como título valor.',
+    decision:
+      'El diálogo con la autoridad tributaria es SOAP, un protocolo de otra época que no se puede cambiar de forma unilateral: del otro lado hay una entidad estatal. La tentación era dejar ese núcleo congelado en el framework antiguo para siempre. En vez de eso lo reescribí sobre .NET moderno usando CoreWCF, que permite seguir hablando SOAP exactamente igual mientras el resto del código gana inyección de dependencias, acceso a datos moderno y pruebas. El contrato hacia afuera no cambió ni un carácter; hacia adentro cambió todo. Los errores de la autoridad, por su parte, no se resuelven con una cadena de condicionales que nadie se atreve a tocar: cada tipo de error es una estrategia independiente que una factoría selecciona.',
+    resultado:
+      'Miles de empresas facturando a diario contra dos autoridades tributarias, con reprocesos automáticos que resuelven las caídas del servicio estatal sin intervención humana, y un núcleo que hoy corre sobre .NET moderno sin que ningún consumidor tuviera que migrar.',
+    tecnologias: [
+      'C# / .NET 8',
+      'CoreWCF',
+      'WCF / SOAP',
+      'UBL 2.1',
+      'Firma XAdES',
+      'BouncyCastle',
+      'Certificados X.509',
+      'EF Core',
+      'SQL Server',
+      'Azure Blob Storage',
+      'Azure Functions',
+      'Strategy + Factory',
+    ],
+    metricas: [
+      { valor: '2', etiqueta: 'autoridades tributarias' },
+      { valor: '15', etiqueta: 'tipos de evento de título valor' },
+      { valor: '11', etiqueta: 'estrategias de error' },
+      { valor: '0', etiqueta: 'contratos rotos al modernizar' },
+    ],
+    snippets: [
+      {
+        titulo: 'Cada error de la autoridad es una clase, no un caso más del switch',
+        lenguaje: 'csharp',
+        explicacion:
+          'La autoridad devuelve decenas de códigos de rechazo distintos, y aparecen nuevos cada resolución. Con estrategias registradas, soportar uno nuevo es añadir una clase: el orquestador no se toca y no hay riesgo de romper el manejo de los demás.',
+        codigo: `public interface IEstrategiaErrorDian
+{
+    bool Aplica(string codigo);
+    Task<ResultadoReproceso> ResolverAsync(DocumentoElectronico doc, CancellationToken ct);
+}
+
+public sealed class FabricaEstrategiasError
+{
+    private readonly IEnumerable<IEstrategiaErrorDian> _estrategias;
+
+    public IEstrategiaErrorDian Resolver(string codigo) =>
+        _estrategias.FirstOrDefault(e => e.Aplica(codigo))
+            ?? throw new ErrorDianNoReconocidoException(codigo);
+}`,
+      },
+      {
+        titulo: 'SOAP heredado sobre .NET moderno',
+        lenguaje: 'csharp',
+        explicacion:
+          'CoreWCF expone el mismo contrato SOAP de siempre desde .NET moderno. Para la autoridad tributaria nada cambió; del lado de acá el servicio ya recibe sus dependencias por inyección y es comprobable con pruebas.',
+        codigo: `builder.Services.AddServiceModelServices();
+
+app.UseServiceModel(serviceBuilder =>
+{
+    serviceBuilder.AddService<ServicioFacturacionElectronica>();
+    serviceBuilder.AddServiceEndpoint<ServicioFacturacionElectronica, IFacturacionElectronica>(
+        new BasicHttpBinding(BasicHttpSecurityMode.Transport),
+        "/FacturacionElectronica.svc");
+});`,
+      },
+    ],
+  },
+
+  {
     slug: 'reserva-citas-pagos',
     nombre: 'Plataforma de reserva y pago de citas',
     resumen:
       'Agenda en línea con cobro anticipado: el paciente reserva y paga, y la franja se bloquea sola.',
     tipo: 'Cliente',
     anio: '2026',
-    destacado: true,
+    destacado: false,
     problema:
       'Una profesional independiente agendaba por WhatsApp y cobraba por transferencia. Perdía horas confirmando citas, sufría ausencias sin aviso y ocasionalmente prometía la misma hora a dos personas. Necesitaba que el sistema fuera dueño de la agenda y del cobro, con tres modalidades de atención y recargo por desplazamiento según el municipio.',
     solucion:
@@ -329,7 +404,7 @@ p_visitante = np.triu(matriz, 1).sum()`,
     resultado:
       'Entrega con documentación de arquitectura, diagramas de flujo de la petición y despliegue en contenedor. Sirve como muestra directa de mi estándar de trabajo.',
     tecnologias: [
-      'C# / .NET',
+      '.NET Framework',
       'Clean Architecture',
       'CQRS',
       'MediatR',
@@ -361,34 +436,237 @@ p_visitante = np.triu(matriz, 1).sum()`,
   },
 
   {
-    slug: 'mantenimiento-erp-legacy',
-    nombre: 'Mantenimiento y modernización de ERP legacy',
+    slug: 'identidad-terceros',
+    nombre: 'Microservicios de identidad de terceros',
     resumen:
-      'Soporte y migración a 64 bits de módulos de un ERP contable en producción desde hace años.',
-    tipo: 'Cliente',
+      'Resuelve quién es un tercero a partir de su número de documento, cruzando la base propia, el servicio de la autoridad tributaria y fuentes públicas.',
+    tipo: 'Profesional',
     anio: '2024 – 2026',
     destacado: false,
     problema:
-      'Un ERP contable con años en producción y cientos de empresas usándolo tenía módulos atados a componentes de 32 bits que dejaron de funcionar en equipos modernos. Reescribir el sistema no era una opción: hay que mantenerlo funcionando mientras se moderniza por partes.',
+      'Para emitir una factura hay que saber exactamente a nombre de quién se emite, y el dato llega mal: nombres abreviados, apellidos en desorden, razones sociales con puntuación distinta cada vez. Consultar la fuente oficial en cada operación es lento y frágil. Peor aún: cuando un dato cambia, hay que distinguir si el tercero realmente se llama distinto ahora o si solo lo escribieron de otra forma, porque actualizar por cada variación tipográfica genera ruido interminable.',
     solucion:
-      'Migración de los módulos afectados a 64 bits, actualizadores automáticos que llevan cada instalación de cliente a la versión correcta sin visita técnica, y un servicio de Windows que monitorea la disponibilidad de los servicios y deja registro.',
+      'Un conjunto de microservicios que consulta en cascada: primero la base propia, después las transacciones ya existentes, luego el servicio de la autoridad tributaria y por último las fuentes públicas. Cada capa responde más rápido que la siguiente y solo se baja un escalón si hace falta. Un servicio aparte consume una cola de mensajes para actualizar en segundo plano sin bloquear a nadie.',
     decision:
-      'No tocar lo que funciona. Cada cambio se aísla al módulo afectado y se entrega con un actualizador que puede revertirse, porque en un ERP contable en producción una migración fallida no es un bug: es una empresa que no puede facturar mañana.',
+      'La comparación de nombres no se hace por igualdad de texto, porque “Rodríguez Martínez Luis F.” y “LUIS FELIPE RODRIGUEZ MARTINEZ” son la misma persona escrita de dos maneras. Un servicio en Python convierte ambos nombres a vectores semánticos y mide su similitud: por encima del umbral es la misma identidad escrita distinto y no se toca nada, por debajo es un cambio real que sí debe registrarse. Eso eliminó de raíz las actualizaciones falsas. La descomposición de un nombre en sus partes tampoco es un algoritmo único: nombres de una, dos, tres o más palabras se resuelven con estrategias distintas ensambladas explícitamente al arrancar.',
     resultado:
-      'Instalaciones funcionando en equipos modernos sin interrumpir la operación de los clientes ni migrar sus datos históricos.',
+      'Identificación resuelta en milisegundos en el caso común, sin golpear la fuente oficial, y con las actualizaciones por variación de escritura eliminadas. Cada servicio va en su contenedor y los secretos viven en el almacén de claves, nunca en el repositorio.',
     tecnologias: [
-      'C#',
-      '.NET',
-      'Windows Services',
+      'C# / .NET 8',
+      'Minimal API',
+      'RabbitMQ',
+      'Python',
+      'FastAPI',
+      'Embeddings',
+      'EF Core',
+      'SQL Server',
+      'Azure Key Vault',
+      'Docker',
+      'API Key',
+      'Rate limiting',
+    ],
+    metricas: [
+      { valor: '4', etiqueta: 'fuentes consultadas en cascada' },
+      { valor: '3', etiqueta: 'microservicios independientes' },
+      { valor: '0', etiqueta: 'secretos en el repositorio' },
+    ],
+    snippets: [
+      {
+        titulo: 'Un cambio real no es lo mismo que otra forma de escribirlo',
+        lenguaje: 'python',
+        explicacion:
+          'Los dos nombres se convierten en vectores semánticos y se compara su ángulo. Por encima del umbral se considera la misma identidad, así que no se genera una actualización que solo sería ruido.',
+        codigo: `UMBRAL_MISMA_IDENTIDAD = 0.92
+
+def es_cambio_real(nombre_actual: str, nombre_nuevo: str) -> bool:
+    """True solo si el nombre cambió de verdad, no si lo escribieron distinto."""
+    vectores = modelo.encode([normalizar(nombre_actual), normalizar(nombre_nuevo)])
+    similitud = float(util.cos_sim(vectores[0], vectores[1]))
+    return similitud < UMBRAL_MISMA_IDENTIDAD`,
+      },
+      {
+        titulo: 'La clave de API se valida antes de tocar el endpoint',
+        lenguaje: 'csharp',
+        explicacion:
+          'Un filtro de endpoint corta la petición sin credencial válida antes de que llegue al manejador. La autorización no se repite en cada endpoint ni depende de que nadie la olvide.',
+        codigo: `public sealed class ApiKeyEndpointFilter : IEndpointFilter
+{
+    public async ValueTask<object?> InvokeAsync(
+        EndpointFilterInvocationContext contexto, EndpointFilterDelegate siguiente)
+    {
+        var recibida = contexto.HttpContext.Request.Headers["X-Api-Key"];
+        if (!_validador.EsValida(recibida))
+            return Results.Problem(statusCode: StatusCodes.Status401Unauthorized);
+
+        return await siguiente(contexto);
+    }
+}`,
+      },
+    ],
+  },
+
+  {
+    slug: 'facturacion-salud-rips',
+    nombre: 'Facturación electrónica del sector salud',
+    resumen:
+      'Integra el ERP con la plataforma del Ministerio de Salud para radicar facturas con su soporte clínico y recuperar el código que las valida.',
+    tipo: 'Profesional',
+    anio: '2025 – 2026',
+    destacado: false,
+    problema:
+      'Una institución de salud no cobra con la factura sola: debe radicarla acompañada del detalle de cada servicio prestado a cada usuario. El paquete resultante pesa varios megas, llega comprimido, y cualquier inconsistencia se traduce en una glosa que retrasa el pago semanas. Además la plataforma estatal expone más de una decena de operaciones distintas según se trate de una factura, una nota de ajuste, un acuerdo de voluntades o una capitación.',
+    solucion:
+      'Una API en .NET 8 con arquitectura por capas concéntricas que recibe el paquete comprimido, lo valida antes de enviar nada, lo radica ante la plataforma estatal, recupera el código único que acredita la validación y administra las observaciones y rechazos que devuelve. Una función complementaria arma el correo con los soportes y lo envía.',
+    decision:
+      'Validar en casa antes de enviar. La plataforma estatal es lenta y sus mensajes de error son crípticos, así que cada regla que se pueda comprobar localmente se comprueba con validación declarativa antes de gastar un viaje de red: el usuario recibe un error entendible en segundos en lugar de un rechazo incomprensible minutos después. El tipo de usuario del paquete tampoco se resuelve con condicionales anidados sino con una estrategia por tipo, porque la norma cambia y cambia seguido. Y ninguna cadena de conexión vive en el repositorio: todos los secretos se resuelven contra el almacén de claves en el arranque.',
+    resultado:
+      'Radicación automatizada del ciclo completo, con los rechazos detectados antes del envío y el código de validación recuperado y almacenado sin intervención manual.',
+    tecnologias: [
+      'C# / .NET 8',
+      'Minimal API',
+      'Onion Architecture',
+      'FluentValidation',
+      'EF Core',
+      'SQL Server',
+      'Azure Key Vault',
+      'Azure Functions',
+      'AWS SES',
+      'Strategy + Factory',
+    ],
+    metricas: [
+      { valor: '16', etiqueta: 'operaciones de la plataforma estatal' },
+      { valor: '3', etiqueta: 'contextos de datos' },
+      { valor: 'gzip', etiqueta: 'paquetes de gran tamaño' },
+    ],
+    snippets: [
+      {
+        titulo: 'Los secretos se resuelven en el arranque, no se versionan',
+        lenguaje: 'csharp',
+        explicacion:
+          'La configuración se completa desde el almacén de claves antes de construir la aplicación. El repositorio no contiene ninguna cadena de conexión, y rotar una credencial no exige recompilar ni desplegar.',
+        codigo: `builder.Configuration.AddAzureKeyVault(
+    new Uri(builder.Configuration["KeyVault:Uri"]
+        ?? throw new InvalidOperationException("KeyVault:Uri sin configurar")),
+    new DefaultAzureCredential());
+
+builder.Services
+    .AddOptions<OpcionesPlataformaSalud>()
+    .BindConfiguration("PlataformaSalud")
+    .ValidateDataAnnotations()
+    .ValidateOnStart();   // si falta algo, no arranca: mejor que fallar en la primera radicación`,
+      },
+    ],
+  },
+
+  {
+    slug: 'portal-saas-crm',
+    nombre: 'Portal SaaS y CRM de un ERP contable',
+    resumen:
+      'El portal donde los clientes compran, renuevan y administran su licencia, y donde la empresa gestiona su operación comercial.',
+    tipo: 'Profesional',
+    anio: '2021 – 2026',
+    destacado: false,
+    problema:
+      'Un ERP vendido por licencias necesita mucho más que un botón de pago: catálogo y cotizaciones, renovaciones, activación de instancias, seguimiento comercial, capacitaciones, certificaciones, tickets de soporte y facturación de todo lo anterior. Todo eso creció durante años sobre tecnología web de generaciones distintas y siguió en producción, con clientes reales pagando a través de él todos los días.',
+    solucion:
+      'Portal con más de cuarenta módulos de negocio que sostengo y amplío: licenciamiento, cotizaciones, seguimiento comercial, capacitaciones, tickets, encuestas, agenda, tableros y campañas. Convive tecnología de varias épocas sobre una misma base, con trabajos programados que ejecutan la facturación recurrente y las notificaciones, y notificaciones en vivo hacia el navegador.',
+    decision:
+      'Cuatro pasarelas de pago distintas, cada una con su propia forma de cobrar, tokenizar una tarjeta y notificar el resultado. Meterlas en el flujo de cobro habría convertido ese flujo en un nudo imposible de tocar. Cada pasarela está detrás de una estrategia con la misma interfaz: el flujo de cobro no sabe con cuál está hablando, y añadir una quinta no obliga a modificar ni una línea del código que ya funciona. Cuando una pasarela cae, se conmuta a otra por configuración en lugar de por despliegue.',
+    resultado:
+      'Cobro en línea operativo por cuatro vías simultáneas, renovaciones y facturación recurrente ejecutándose solas, y una base heredada que sigue evolucionando en lugar de congelarse.',
+    tecnologias: [
+      '.NET Framework',
+      'ASP.NET MVC 5',
+      'Web Forms',
+      'OWIN',
+      'SignalR',
+      'Hangfire',
+      'Entity Framework 6',
+      'SQL Server',
+      'Pasarelas de pago',
+      'AWS SES',
+      'Strategy + Factory',
+    ],
+    metricas: [
+      { valor: '40+', etiqueta: 'módulos de negocio' },
+      { valor: '4', etiqueta: 'pasarelas de pago' },
+      { valor: '7', etiqueta: 'bases de datos integradas' },
+    ],
+    snippets: [
+      {
+        titulo: 'El flujo de cobro no sabe qué pasarela está usando',
+        lenguaje: 'csharp',
+        explicacion:
+          'Una interfaz común y un selector por configuración. Añadir una pasarela es escribir una clase; conmutar de proveedor cuando uno falla es cambiar un valor, no desplegar una versión.',
+        codigo: `public interface IPasarelaPago
+{
+    string Codigo { get; }
+    Task<ResultadoPago> CobrarAsync(SolicitudPago solicitud, CancellationToken ct);
+    Task<ResultadoPago> ConsultarAsync(string referencia, CancellationToken ct);
+}
+
+public sealed class SelectorPasarela(IEnumerable<IPasarelaPago> pasarelas,
+                                     IOptionsMonitor<OpcionesCobro> opciones)
+{
+    public IPasarelaPago Activa() =>
+        pasarelas.Single(p => p.Codigo == opciones.CurrentValue.PasarelaPreferida);
+}`,
+      },
+    ],
+  },
+
+  {
+    slug: 'mantenimiento-erp-legacy',
+    nombre: 'Asistente y modernización de un ERP de escritorio',
+    resumen:
+      'Aplicación de escritorio que se acopla en vivo al ERP heredado para configurar empresas, contabilizar, facturar y migrar sus datos a la nube.',
+    tipo: 'Profesional',
+    anio: '2021 – 2026',
+    destacado: false,
+    problema:
+      'Un ERP contable con años en producción y cientos de empresas encima seguía funcionando sobre una base de escritorio de generación anterior. Reescribirlo no era una opción —esas empresas facturan todos los días con él— pero tampoco podía quedarse quieto: hacían falta funcionalidades nuevas (nómina electrónica, facturación electrónica, informes, migración a la nube) y los componentes de 32 bits dejaron de funcionar en equipos modernos.',
+    solucion:
+      'Una aplicación de escritorio en arquitectura por capas estricta que actúa como asistente del sistema heredado: se acopla a la instancia que el usuario ya tiene abierta y opera sobre ella. Cubre configuración inicial de empresas, terceros, inventarios, contabilización, nómina, facturación electrónica, informes y la migración de los datos históricos a la nube. En paralelo, la migración de los módulos afectados a 64 bits, actualizadores que llevan cada instalación a la versión correcta sin visita técnica y un servicio que vigila la disponibilidad y deja registro.',
+    decision:
+      'No reemplazar el sistema: acoplarse a él. La aplicación se adjunta en tiempo de ejecución a la instancia viva del ERP mediante interoperabilidad de componentes, lee y escribe sobre su base heredada y a la vez opera contra el motor de datos moderno. El usuario ve una sola herramienta; por dentro conviven dos generaciones de tecnología. Cada cambio se aísla al módulo afectado y se entrega con un actualizador reversible, porque en un ERP contable una migración fallida no es un error: es una empresa que mañana no puede facturar.',
+    resultado:
+      'Funcionalidad nueva entregada durante cinco años sobre un sistema que nunca dejó de operar, instalaciones corriendo en equipos modernos y datos históricos migrados a la nube sin pérdida ni interrupción del servicio.',
+    tecnologias: [
+      '.NET Framework',
+      'WinForms',
+      'COM / Interop',
       'Microsoft Access / DAO',
+      'Dapper',
+      'ADO.NET',
+      'SQL Server',
+      'Windows Services',
+      'WCF / SOAP',
       'Migración x86 a x64',
       'Instaladores',
     ],
     metricas: [
+      { valor: '5', etiqueta: 'años de evolución continua' },
       { valor: 'x64', etiqueta: 'migración sin downtime' },
       { valor: '0', etiqueta: 'pérdida de datos' },
     ],
-    snippets: [],
+    snippets: [
+      {
+        titulo: 'Acoplarse al sistema que ya está abierto',
+        lenguaje: 'csharp',
+        explicacion:
+          'En lugar de abrir su propia sesión y competir por los bloqueos del archivo, la aplicación localiza la ventana del ERP en ejecución y obtiene su objeto de automatización. Trabaja sobre la instancia que el usuario ya tiene abierta, con sus datos y sus permisos.',
+        codigo: `private const uint OBJID_NATIVEOM = 0xFFFFFFF0;
+
+public static Application? ObtenerInstanciaViva(IntPtr ventana)
+{
+    var iid = typeof(Application).GUID;
+    var resultado = AccessibleObjectFromWindow(ventana, OBJID_NATIVEOM, ref iid, out var obj);
+
+    // Sin instancia abierta no se inventa una: el llamador decide qué hacer.
+    return resultado == 0 ? obj as Application : null;
+}`,
+      },
+    ],
   },
 ] as const;
 

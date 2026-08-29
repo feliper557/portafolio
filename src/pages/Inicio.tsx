@@ -12,7 +12,7 @@ const CIFRAS = [
   { valor: PERFIL.aniosExperiencia, etiqueta: 'años construyendo software' },
   { valor: String(PROYECTOS.length), etiqueta: 'sistemas en el portafolio' },
   { valor: String(STACK.length), etiqueta: 'tecnologías con proyecto detrás' },
-  { valor: '2', etiqueta: 'plataformas en producción' },
+  { valor: '6', etiqueta: 'sistemas en producción' },
 ] as const;
 
 export default function Inicio() {

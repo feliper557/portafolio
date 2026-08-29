@@ -6,7 +6,11 @@ export const CATEGORIAS = [
   'Frontend',
   'Datos',
   'Cloud y DevOps',
-  'Prácticas',
+  'Mensajería y procesos',
+  'Seguridad y criptografía',
+  'Pruebas y calidad',
+  'Legado e interoperabilidad',
+  'Prácticas y arquitectura',
 ] as const;
 
 export type Categoria = (typeof CATEGORIAS)[number];
@@ -36,7 +40,11 @@ export interface Metrica {
   readonly etiqueta: string;
 }
 
-export type TipoProyecto = 'Propio' | 'Cliente' | 'Prueba técnica';
+/**
+ * 'Profesional' es trabajo en empresa; 'Cliente', encargos propios. La distinción
+ * importa: un ERP corporativo y un encargo freelance no se leen igual.
+ */
+export type TipoProyecto = 'Propio' | 'Cliente' | 'Profesional' | 'Prueba técnica';
 
 export interface Proyecto {
   readonly slug: string;

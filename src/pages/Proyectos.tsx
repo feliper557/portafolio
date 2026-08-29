@@ -1,9 +1,22 @@
-import { Box, Chip, Container, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Box, Button, Chip, Container, Typography } from '@mui/material';
 import ProyectoCard from '../components/ProyectoCard';
 import { useFiltroProyectos } from '../hooks/useFiltroProyectos';
 
 export default function Proyectos() {
-  const { tecnologiaActiva, proyectos, tecnologiasDisponibles, filtrarPor } = useFiltroProyectos();
+  const { tecnologiaActiva, proyectos, tecnologiasDisponibles, tecnologiasFrecuentes, filtrarPor } =
+    useFiltroProyectos();
+  const [verTodas, setVerTodas] = useState(false);
+
+  // Con casi un centenar de tecnologías, mostrarlas todas de entrada es una pared
+  // de chips. De salida solo van las que aparecen en más de un proyecto, que son
+  // las únicas con las que filtrar cambia algo.
+  // La activa se muestra siempre, aunque sea de un solo proyecto: si se llega por
+  // un enlace compartido, el chip tiene que verse marcado.
+  const visibles = verTodas
+    ? tecnologiasDisponibles
+    : [...new Set([...tecnologiasFrecuentes, ...(tecnologiaActiva ? [tecnologiaActiva] : [])])];
+  const ocultas = tecnologiasDisponibles.length - visibles.length;
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 5, md: 8 } }}>
@@ -28,7 +41,7 @@ export default function Proyectos() {
             variant={tecnologiaActiva ? 'outlined' : 'filled'}
             onClick={() => filtrarPor(null)}
           />
-          {tecnologiasDisponibles.map((t) => {
+          {visibles.map((t) => {
             const activa = t === tecnologiaActiva;
             return (
               <Chip
@@ -42,6 +55,12 @@ export default function Proyectos() {
             );
           })}
         </Box>
+
+        {ocultas > 0 && (
+          <Button size="small" onClick={() => setVerTodas(true)} sx={{ mt: 1 }}>
+            Ver las {ocultas} restantes
+          </Button>
+        )}
       </Box>
 
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }} aria-live="polite">
