@@ -8,10 +8,18 @@
     <title>Felipe Rodríguez · Desarrollador Full Stack .NET + React</title>
     <meta
       name="description"
-      content="Desarrollador Full Stack .NET y React con cinco años sobre un ERP contable en producción: APIs, integraciones fiscales y modernización de sistemas heredados. Disponible para proyectos freelance."
+      content="Desarrollador Full Stack .NET y React con ocho años sobre un ERP contable en producción: APIs, integraciones fiscales y modernización de sistemas heredados. Disponible para proyectos freelance."
     />
 
-    <!-- Vista previa al compartir el enlace por WhatsApp, LinkedIn o correo. -->
+    <!--
+      Vista previa al compartir el enlace por WhatsApp, LinkedIn o correo.
+      El prerenderizado (scripts/prerender.tsx) reescribe título, descripción y
+      og:url con los valores de cada ruta y añade el canonical.
+
+      Falta og:image: sin una imagen de 1200×630 en public/, el enlace se comparte
+      como una caja gris. La etiqueta no se declara mientras el archivo no exista,
+      porque una imagen rota se ve peor que ninguna.
+    -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Felipe Rodríguez · Desarrollador Full Stack .NET + React" />
     <meta

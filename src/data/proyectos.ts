@@ -630,7 +630,7 @@ public sealed class SelectorPasarela(IEnumerable<IPasarelaPago> pasarelas,
     decision:
       'No reemplazar el sistema: acoplarse a él. La aplicación se adjunta en tiempo de ejecución a la instancia viva del ERP mediante interoperabilidad de componentes, lee y escribe sobre su base heredada y a la vez opera contra el motor de datos moderno. El usuario ve una sola herramienta; por dentro conviven dos generaciones de tecnología. Cada cambio se aísla al módulo afectado y se entrega con un actualizador reversible, porque en un ERP contable una migración fallida no es un error: es una empresa que mañana no puede facturar.',
     resultado:
-      'Funcionalidad nueva entregada durante cinco años sobre un sistema que nunca dejó de operar, instalaciones corriendo en equipos modernos y datos históricos migrados a la nube sin pérdida ni interrupción del servicio.',
+      'Funcionalidad nueva entregada durante años sobre un sistema que nunca dejó de operar, instalaciones corriendo en equipos modernos y datos históricos migrados a la nube sin pérdida ni interrupción del servicio.',
     tecnologias: [
       '.NET Framework',
       'WinForms',
@@ -645,7 +645,7 @@ public sealed class SelectorPasarela(IEnumerable<IPasarelaPago> pasarelas,
       'Instaladores',
     ],
     metricas: [
-      { valor: '5', etiqueta: 'años de evolución continua' },
+      { valor: '8', etiqueta: 'años de evolución continua' },
       { valor: 'x64', etiqueta: 'migración sin downtime' },
       { valor: '0', etiqueta: 'pérdida de datos' },
     ],

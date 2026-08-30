@@ -5,13 +5,17 @@ import MailOutlineIcon from '@mui/icons-material/MailOutlined';
 import ProyectoCard from '../components/ProyectoCard';
 import { PROYECTOS, PROYECTOS_DESTACADOS } from '../data/proyectos';
 import { PERFIL, SERVICIOS } from '../data/perfil';
-import { STACK } from '../data/stack';
 
-/** Cifras de la portada: se calculan de los datos, no se escriben a mano. */
+/**
+ * Cifras de la portada. Se prefiere el dato que nadie más puede declarar sobre el
+ * dato grande: "87 tecnologías" suena a lista de palabras clave y contradice la
+ * regla de /stack, mientras que integrar dos autoridades tributarias no lo dice
+ * cualquiera.
+ */
 const CIFRAS = [
   { valor: PERFIL.aniosExperiencia, etiqueta: 'años construyendo software' },
   { valor: String(PROYECTOS.length), etiqueta: 'sistemas en el portafolio' },
-  { valor: String(STACK.length), etiqueta: 'tecnologías con proyecto detrás' },
+  { valor: '2', etiqueta: 'autoridades tributarias integradas' },
   { valor: '6', etiqueta: 'sistemas en producción' },
 ] as const;
 
@@ -77,7 +81,11 @@ export default function Inicio() {
         >
           {CIFRAS.map((c) => (
             <Box key={c.etiqueta}>
-              <Typography variant="h2" color="primary.main">
+              {/*
+                El tamaño es de encabezado, pero la semántica no: un lector de
+                pantalla no debe oír "8, 11, 2, 6" como una lista de títulos.
+              */}
+              <Typography variant="h2" component="p" color="primary.main">
                 {c.valor}
               </Typography>
               <Typography variant="body2" color="text.secondary">

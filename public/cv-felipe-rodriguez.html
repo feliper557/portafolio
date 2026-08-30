@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Felipe Rodríguez — Desarrollador Fullstack .NET + React</title>
+    <title>Felipe Rodríguez — Desarrollador Full Stack .NET + React</title>
     <style>
       /*
         CV pensado para imprimirse a PDF desde el navegador (Ctrl+P → Guardar como PDF).
@@ -95,12 +95,13 @@
   <body>
     <header>
       <h1>Felipe Rodríguez</h1>
-      <p class="titular">Desarrollador Fullstack · .NET + React</p>
+      <p class="titular">Desarrollador Full Stack · .NET + React</p>
       <div class="contacto">
         <a href="mailto:feliper421@gmail.com">feliper421@gmail.com</a>
-        <span class="pendiente">[PENDIENTE: LinkedIn]</span>
-        <span class="pendiente">[PENDIENTE: GitHub]</span>
-        <span class="pendiente">[PENDIENTE: ciudad]</span>
+        <a href="https://lemon-sea-045520a0f.7.azurestaticapps.net">Portafolio con 11 casos de estudio</a>
+        <a href="https://www.linkedin.com/in/felipe-rodriguez-03111927b">linkedin.com/in/felipe-rodriguez-03111927b</a>
+        <a href="https://github.com/feliper557">github.com/feliper557</a>
+        <span>Bogotá, Colombia</span>
         <span>Disponible para proyectos freelance · Remoto</span>
       </div>
     </header>
@@ -108,11 +109,14 @@
     <section>
       <h2>Perfil</h2>
       <p class="perfil">
-        Desarrollador fullstack con más de 5 años construyendo sistemas que llegan a producción y se
-        mantienen ahí. Backend en C# y .NET con Clean Architecture, CQRS y TDD; frontend en React 19
-        con TypeScript. Experiencia en arquitecturas serverless sobre Azure, bases de datos
-        relacionales y NoSQL, sistemas multiempresa e integraciones con pasarelas de pago, WhatsApp,
-        telefonía, calendarios y agentes de IA.
+        Desarrollador Full Stack con ocho años construyendo y sosteniendo el ecosistema completo de un
+        ERP contable colombiano y su plataforma SaaS: desde servicios heredados y aplicaciones de
+        escritorio hasta APIs en .NET 10 con Clean Architecture y una interfaz en React 19 con
+        TypeScript. Especializado en integraciones fiscales y regulatorias de alta complejidad, donde
+        un error de esquema o de firma digital bloquea la operación de miles de empresas. Perfil
+        híbrido: escribo funcionalidad nueva con arquitectura moderna y prácticas de testing, y a la
+        vez modernizo código heredado en producción sin romper a un solo cliente.
+        Once casos de estudio con arquitectura y decisiones técnicas en el portafolio enlazado arriba.
       </p>
     </section>
 
@@ -194,17 +198,59 @@
     <section>
       <h2>Experiencia profesional</h2>
       <div class="entrada">
-        <h3 class="pendiente">[PENDIENTE: cargo] — [PENDIENTE: empresa]</h3>
-        <p class="meta pendiente">[PENDIENTE: periodo]</p>
+        <h3>Desarrollador Full Stack .NET — World Office Colombia S.A.S</h3>
+        <p class="meta">Bogotá · 2018 – actualidad</p>
         <ul>
-          <li class="pendiente">[PENDIENTE: responsabilidades y logros]</li>
+          <li>
+            Construí y mantengo el núcleo de facturación electrónica ante la DIAN (Colombia) y la SUNAT
+            (Perú): armado de XML UBL 2.1, cálculo de identificadores únicos, firma XAdES con sello de
+            tiempo y reproceso automático, con miles de empresas facturando a diario.
+          </li>
+          <li>
+            Modernicé el servicio SOAP heredado de facturación a .NET moderno con CoreWCF sin romper el
+            contrato: cero consumidores obligados a migrar y cero incidentes en producción.
+          </li>
+          <li>
+            Desarrollé con TDD el backend de la plataforma omnicanal de servicio al cliente en .NET 10
+            (Clean Architecture y Vertical Slice), con aislamiento multiempresa verificado por pruebas de
+            integración contra PostgreSQL real en contenedores.
+          </li>
+          <li>
+            Integré la facturación del sector salud con la plataforma FEV-RIPS del Ministerio de Salud, y
+            la debida diligencia SAGRILAFT contra diez fuentes de listas restrictivas.
+          </li>
+          <li>
+            Integro el trabajo de un equipo de más de ocho desarrolladores hacia la rama principal de forma
+            sostenida: revisión de código e integración continua como responsabilidad diaria.
+          </li>
+          <li>
+            Sostengo un rango de plataforma de más de quince años, del framework heredado a .NET 10,
+            migrando módulos críticos a 64 bits sin pérdida de datos ni interrupción del servicio.
+          </li>
         </ul>
       </div>
     </section>
 
     <section>
-      <h2>Formación</h2>
-      <p class="pendiente">[PENDIENTE: título, institución y año]</p>
+      <h2>Formación y certificaciones</h2>
+      <div class="entrada">
+        <h3>Ingeniero de Sistemas — Universidad Nacional Abierta y a Distancia (UNAD)</h3>
+        <p class="meta">Grado 2025 · Tarjeta profesional vigente</p>
+      </div>
+      <div class="entrada">
+        <h3>Certificaciones</h3>
+        <p class="meta">Platzi · 9 cursos con diploma público verificable</p>
+        <ul>
+          <li>Fundamentos de .NET · Introducción a C# · POO con C# · APIs con .NET</li>
+          <li>Principios SOLID en C# y .NET · Fundamentos de Entity Framework</li>
+          <li>Básico de JavaScript · Claude AI · Claude Code</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Idiomas</h2>
+      <p>Español (nativo) · Inglés técnico: lectura de documentación y especificaciones.</p>
     </section>
   </body>
 </html>

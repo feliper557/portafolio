@@ -16,9 +16,16 @@ interface CanalProps {
   readonly etiqueta: string;
   readonly valor: string;
   readonly href?: string;
+  /** Texto del enlace, cuando el valor completo es demasiado largo para mostrarlo. */
+  readonly textoEnlace?: string;
+  /**
+   * Repite el valor como texto plano bajo el enlace. Para quien navega desde un
+   * equipo sin cliente de correo configurado: un mailto: ahí no sirve de nada.
+   */
+  readonly seleccionable?: boolean;
 }
 
-function Canal({ icono, etiqueta, valor, href }: CanalProps) {
+function Canal({ icono, etiqueta, valor, href, textoEnlace, seleccionable }: CanalProps) {
   const pendiente = estaPendiente(valor);
 
   return (
@@ -30,10 +37,21 @@ function Canal({ icono, etiqueta, valor, href }: CanalProps) {
         </Typography>
         {href && !pendiente ? (
           <Link href={href} underline="hover" sx={{ wordBreak: 'break-word', fontWeight: 600 }}>
-            {valor}
+            {textoEnlace ?? valor}
           </Link>
         ) : (
-          <Typography sx={{ wordBreak: 'break-word', fontWeight: 600 }}>{valor}</Typography>
+          <Typography sx={{ wordBreak: 'break-word', fontWeight: 600 }}>
+            {textoEnlace ?? valor}
+          </Typography>
+        )}
+        {seleccionable && !pendiente && (
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ wordBreak: 'break-all', userSelect: 'all' }}
+          >
+            {valor}
+          </Typography>
         )}
       </Box>
     </Paper>
@@ -64,12 +82,15 @@ export default function Contacto() {
           etiqueta="Correo"
           valor={PERFIL.email}
           href={`mailto:${PERFIL.email}?subject=Proyecto%20de%20software`}
+          textoEnlace="Escribir un correo"
+          seleccionable
         />
         <Canal
           icono={<LinkedInIcon />}
           etiqueta="LinkedIn"
           valor={PERFIL.linkedin}
           href={PERFIL.linkedin}
+          textoEnlace={PERFIL.linkedin.replace('https://www.', '')}
         />
         <Canal
           icono={<GitHubIcon />}
@@ -97,15 +118,15 @@ export default function Contacto() {
               Versión resumida en PDF, lista para adjuntar a una vacante o propuesta.
             </Typography>
           </Box>
-          <Button
-            href={PERFIL.cv}
-            download
-            variant="contained"
-            startIcon={<DownloadIcon />}
-            sx={{ flexShrink: 0 }}
-          >
-            Descargar CV
-          </Button>
+          <Stack direction="row" spacing={1} sx={{ flexShrink: 0, alignItems: 'center' }}>
+            <Button href={PERFIL.cv} download variant="contained" startIcon={<DownloadIcon />}>
+              Descargar PDF
+            </Button>
+            {/* Misma hoja de vida en web: funciona aunque el PDF no esté publicado. */}
+            <Button href={PERFIL.cvWeb} target="_blank" rel="noopener noreferrer">
+              Verla en el navegador
+            </Button>
+          </Stack>
         </Stack>
       </Paper>
 

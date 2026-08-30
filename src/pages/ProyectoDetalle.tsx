@@ -114,7 +114,7 @@ export default function ProyectoDetalle() {
             Cómo se ve por dentro
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            Fragmentos del código real, con la razón de cada decisión.
+            Ejemplos ilustrativos de los patrones aplicados, con la razón de cada decisión.
           </Typography>
           <Stack spacing={2.5}>
             {proyecto.snippets.map((s) => (

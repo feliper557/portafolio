@@ -150,6 +150,48 @@ export default function Layout() {
       <Divider />
       <Box component="footer" sx={{ py: 4 }}>
         <Container maxWidth="lg">
+          {/*
+            Los enlaces de verificación van en el pie, no solo en /contacto: quien
+            quiere comprobar quién eres lo hace desde donde esté leyendo.
+          */}
+          <Stack
+            direction="row"
+            spacing={2.5}
+            sx={{ flexWrap: 'wrap', gap: 1.5, mb: 2, alignItems: 'center' }}
+          >
+            <Link
+              href={PERFIL.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="body2"
+              underline="hover"
+              color="text.secondary"
+            >
+              LinkedIn
+            </Link>
+            <Link
+              href={`https://github.com/${PERFIL.github}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="body2"
+              underline="hover"
+              color="text.secondary"
+            >
+              GitHub
+            </Link>
+            <Link
+              href={`mailto:${PERFIL.email}`}
+              variant="body2"
+              underline="hover"
+              color="text.secondary"
+            >
+              {PERFIL.email}
+            </Link>
+            <Typography variant="body2" color="text.secondary">
+              {PERFIL.ubicacion}
+            </Typography>
+          </Stack>
+
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={1}

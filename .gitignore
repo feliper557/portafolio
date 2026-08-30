@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Artefactos de la prueba de humo
+# Artefactos de la prueba de humo y del prerenderizado
 dist-smoke
+dist-prerender

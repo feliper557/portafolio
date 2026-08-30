@@ -38,7 +38,7 @@ export default function Trayectoria() {
         Trayectoria y formación
       </Typography>
       <Typography variant="subtitle1" sx={{ maxWidth: 720, mb: 6 }}>
-        Cinco años sobre un mismo producto en producción: qué construí, en qué dominios y con qué
+        Ocho años sobre un mismo producto en producción: qué construí, en qué dominios y con qué
         forma de trabajar. El empleador va sin nombrar; lo que demuestra el trabajo es el alcance.
       </Typography>
 
@@ -48,7 +48,7 @@ export default function Trayectoria() {
           Experiencia profesional
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 680, mb: 3 }}>
-          Un solo producto durante cinco años da algo que saltar de proyecto en proyecto no da: ver
+          Un solo producto durante ocho años da algo que saltar de proyecto en proyecto no da: ver
           las consecuencias de las decisiones propias años después.
         </Typography>
 

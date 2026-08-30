@@ -46,8 +46,21 @@ export default function SnippetCodigo({ snippet }: Props) {
         <code>{snippet.codigo}</code>
       </Box>
 
-      <Typography variant="body2" color="text.secondary" sx={{ px: 2, py: 1.75 }}>
+      <Typography variant="body2" color="text.secondary" sx={{ px: 2, pt: 1.75 }}>
         {snippet.explicacion}
+      </Typography>
+
+      {/*
+        Aviso fijo, no opcional: el código de un producto comercial pertenece a la
+        empresa. Lo que demuestra criterio es el patrón, no el identificador, así
+        que reescribirlo como ejemplo no cuesta credibilidad y evita el problema.
+      */}
+      <Typography
+        variant="caption"
+        color="text.secondary"
+        sx={{ display: 'block', px: 2, pb: 1.75, fontStyle: 'italic' }}
+      >
+        Ejemplo ilustrativo del patrón aplicado; no es código de ningún producto.
       </Typography>
     </Paper>
   );

@@ -17,7 +17,7 @@ export const FORMACION_ACADEMICA: readonly TituloAcademico[] = [
   {
     titulo: 'Ingeniero de Sistemas',
     institucion: 'Universidad Nacional Abierta y a Distancia (UNAD)',
-    anio: '[PENDIENTE: año de grado]',
+    anio: '2025',
     detalle:
       'Título profesional con tarjeta profesional vigente, que habilita el ejercicio de la ingeniería en Colombia.',
   },
@@ -40,9 +40,9 @@ export const EXPERIENCIA: readonly Experiencia[] = [
   {
     rol: 'Desarrollador Full Stack .NET',
     contexto: 'Casa de software de un ERP contable colombiano y su plataforma SaaS',
-    periodo: 'Marzo 2021 – actualidad',
+    periodo: '2018 – actualidad',
     descripcion:
-      'Construyo y sostengo el ecosistema completo del producto: desde las aplicaciones de escritorio y los servicios heredados que siguen facturando todos los días, hasta las APIs nuevas con arquitectura limpia y la interfaz web moderna que las consume. Un perfil híbrido, porque el sistema real es híbrido.',
+      'Ocho años construyendo y sosteniendo el ecosistema completo del producto: desde las aplicaciones de escritorio y los servicios heredados que siguen facturando todos los días, hasta las APIs nuevas con arquitectura limpia y la interfaz web moderna que las consume. Un perfil híbrido, porque el sistema real es híbrido.',
     logros: [
       'Ecosistema cubierto de punta a punta: escritorio, servicios, APIs, portal web y aplicaciones móviles instalables',
       'Rango tecnológico de más de quince años de plataforma, del framework heredado a la versión más reciente',

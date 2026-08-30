@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run prerender",
+    "prerender": "vite build --ssr scripts/prerender.tsx --outDir dist-prerender --logLevel error && node dist-prerender/prerender.js",
     "lint": "oxlint",
     "preview": "vite preview",
     "smoke": "vite build --ssr scripts/smoke.tsx --outDir dist-smoke --logLevel error && node dist-smoke/smoke.js"
@@ -20,6 +21,7 @@
     "react-router-dom": "^7.18.3"
   },
   "devDependencies": {
+    "@emotion/server": "^11.11.0",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
