@@ -17,8 +17,9 @@ export const PERFIL = {
   email: 'feliper421@gmail.com',
   linkedin: 'https://www.linkedin.com/in/felipe-rodriguez-03111927b',
   github: 'feliper557',
-  cv: '/cv-felipe-rodriguez.pdf',
-  /** Misma hoja de vida en web. Sirve de respaldo si el PDF aún no está publicado. */
+  /** El nombre del archivo se ve en la bandeja del reclutador: lleva nombre y perfil. */
+  cv: '/Felipe-Rodriguez-Full-Stack-NET.pdf',
+  /** Misma hoja de vida en web, para quien prefiere no descargar nada. */
   cvWeb: '/cv-felipe-rodriguez.html',
 } as const;
 

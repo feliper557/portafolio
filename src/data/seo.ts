@@ -9,10 +9,11 @@ import { PROYECTOS } from './proyectos';
  */
 
 /**
- * Origen público del sitio, sin barra final. Único lugar donde vive: el día que
- * haya dominio propio se cambia aquí y se propaga a canonical, og:url y sitemap.
+ * Origen público del sitio, sin barra final. Único lugar donde vive: se propaga
+ * a canonical, og:url y sitemap. Es el dominio propio, no el nombre generado por
+ * Azure, porque el canonical decide cuál de los dos indexa el buscador.
  */
-export const URL_BASE = 'https://lemon-sea-045520a0f.7.azurestaticapps.net';
+export const URL_BASE = 'https://www.feliperodriguez.lat';
 
 export interface MetaRuta {
   /** Ruta absoluta, tal como la sirve el router. */
